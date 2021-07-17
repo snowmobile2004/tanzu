@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: devtron-operator-secret
+  namespace: devtroncd
+type: Opaque
+data:
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: devtron-operator-cm
+  namespace: devtroncd
+data:
+  BLOB_STORAGE_PROVIDER: "MINIO"
