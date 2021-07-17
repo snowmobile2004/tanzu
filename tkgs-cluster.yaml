@@ -1,17 +1,29 @@
-apiVersion: run.tanzu.vmware.com/v1alpha1      #TKGS API endpoint
-kind: TanzuKubernetesCluster                   #required parameter
+apiVersion: run.tanzu.vmware.com/v1alpha1
+kind: TanzuKubernetesCluster
 metadata:
-  name: tkgs-cluster                         #cluster name, user defined
-  namespace: tkgs                   #vsphere namespace
+  name: tkgs-cluster
+  namespace: tkgs
 spec:
-  distribution:
-    version: v1.20                             #Resolves to latest TKR 1.20
   topology:
     controlPlane:
-      count: 3                                 #number of control plane nodes
-      class: best-effort-small                #vmclass for control plane nodes
-      storageClass: vsan-kube #storageclass for control plane
+      count: 3
+      class: best-effort-small
+      storageClass: vsan-kube
     workers:
-      count: 3                                 #number of worker nodes
-      class: best-effort-small                #vmclass for worker nodes
-      storageClass: vsan-kube #storageclass for worker nodes
+      count: 3
+      class: best-effort-small
+      storageClass: vsan-kube
+  distribution:
+    version: v1.20
+  settings:
+    network:
+      cni:
+        name: antrea
+      services:
+        cidrBlocks: ["10.96.0.0/12"]
+      pods:
+        cidrBlocks: ["192.168.0.0/16"]
+      serviceDomain: "cluster.local"
+    storage:
+      classes: ["vsan-kube"]              #Array of named PVC storage classes
+      defaultClass: vsan-kube                     #Default PVC storage class
