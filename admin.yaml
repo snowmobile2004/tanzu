@@ -8,6 +8,6 @@ roleRef:
   name: psp:vmware-system-privileged                            #Default ClusterRole
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: User
-  name: sso:administrator@vsphere.snowlab.tech          #sso<username>@<domain>
+- kind: Group
+  name: system:authenticated          #sso<username>@<domain>
   apiGroup: rbac.authorization.k8s.io
