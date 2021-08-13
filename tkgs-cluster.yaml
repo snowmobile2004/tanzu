@@ -1,29 +1,28 @@
 apiVersion: run.tanzu.vmware.com/v1alpha1
 kind: TanzuKubernetesCluster
 metadata:
-  name: tkgs-cluster
-  namespace: tkgs
+  name: tkgs-cl01
+  namespace: production
 spec:
   topology:
     controlPlane:
       count: 3
-      class: best-effort-small
-      storageClass: vsan-kube
+      class: best-effort-xsmall
+      storageClass: tanzu-default
     workers:
       count: 3
       class: best-effort-small
-      storageClass: vsan-kube
+      storageClass: tanzu-default
   distribution:
     version: v1.20
   settings:
     network:
       cni:
         name: antrea
-      services:
-        cidrBlocks: ["10.96.0.0/12"]
       pods:
-        cidrBlocks: ["192.168.0.0/16"]
+        cidrBlocks: ["172.16.0.0/16"]
+      services:
+        cidrBlocks: ["172.17.0.0/16"]
       serviceDomain: "cluster.local"
     storage:
-      classes: ["vsan-kube"]              #Array of named PVC storage classes
-      defaultClass: vsan-kube                     #Default PVC storage class
+      defaultClass: tanzu-default

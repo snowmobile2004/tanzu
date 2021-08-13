@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: vsan-kube
+  storageClassName: tanzu-default
   resources:
     requests:
         storage: 3Gi
