@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: hastebin
+  name: hastebin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: hastebin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: hastebin
+    spec:
+      containers:
+        - env:
+            - name: GID
+              value: "4242"
+            - name: UID
+              value: "4242"
+          image: angristan/hastebin:latest
+          name: hastebin
+          ports:
+            - containerPort: 7777
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
+status: {}

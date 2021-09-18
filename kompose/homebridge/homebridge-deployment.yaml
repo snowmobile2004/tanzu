@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: homebridge
+  name: homebridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: homebridge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: homebridge
+    spec:
+      containers:
+        - env:
+            - name: HOMEBRIDGE_CONFIG_UI
+              value: "1"
+            - name: HOMEBRIDGE_CONFIG_UI_PORT
+              value: "8581"
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: America/Toronto
+          image: oznu/homebridge:ubuntu
+          name: homebridge
+          resources: {}
+          volumeMounts:
+            - mountPath: /homebridge
+              name: homebridge
+      restartPolicy: Always
+      volumes:
+        - name: homebridge
+          persistentVolumeClaim:
+            claimName: homebridge
+status: {}

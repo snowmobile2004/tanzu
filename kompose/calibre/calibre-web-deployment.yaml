@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: calibre-web
+  name: calibre-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: calibre-web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: calibre-web
+    spec:
+      containers:
+        - env:
+            - name: DOCKER_MODS
+              value: linuxserver/calibre-web:calibre
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: America/Toronto
+          image: ghcr.io/linuxserver/calibre-web
+          name: calibre-web
+          ports:
+            - containerPort: 8083
+          resources: {}
+          volumeMounts:
+            - mountPath: /home/snow/calibre/config
+              name: calibre-web-claim0
+            - mountPath: /home/snow/calibre/books
+              name: calibre-web-claim1
+      restartPolicy: Always
+      volumes:
+        - name: calibre-web-claim0
+          persistentVolumeClaim:
+            claimName: calibre-web-claim0
+        - name: calibre-web-claim1
+          persistentVolumeClaim:
+            claimName: calibre-web-claim1
+status: {}
