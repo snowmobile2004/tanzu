@@ -1,3 +1,5 @@
 tce/** filter=git-crypt diff=git-crypt
 *.yaml linguist-detectable=true
 *.yaml linguist-language=YAML
+*.yml linguist-detectable=true
+*.yml linguist-language=YAML
